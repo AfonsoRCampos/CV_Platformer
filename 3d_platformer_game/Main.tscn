@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://bpfx38prnoyd2"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_rl0cc"]
+[ext_resource type="Script" path="res://PlatformManager.gd" id="2_g1p3f"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yrsw4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6n31e"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_15np0"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1_rl0cc")
+
+[node name="Sun" type="DirectionalLight3D" parent="Player"]
+transform = Transform3D(0.997941, 0.0452687, -0.0454271, 0, 0.70834, 0.705872, 0.0641317, -0.704418, 0.706882, -12, 17.4959, 13.9347)
+
+[node name="Character" type="MeshInstance3D" parent="Player"]
+mesh = SubResource("BoxMesh_yrsw4")
+surface_material_override/0 = SubResource("StandardMaterial3D_6n31e")
+
+[node name="Camera" type="Camera3D" parent="Player"]
+transform = Transform3D(-4.37114e-08, -0.642788, 0.766044, 0, 0.766044, 0.642788, -1, 2.80971e-08, -3.34849e-08, 6, 4, 0)
+
+[node name="CharacterCollision" type="CollisionShape3D" parent="Player"]
+shape = SubResource("BoxShape3D_15np0")
+
+[node name="PlatformManager" type="Node3D" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("2_g1p3f")
+player = NodePath("../Player")
+
+[node name="Platforms" type="Node3D" parent="PlatformManager"]
