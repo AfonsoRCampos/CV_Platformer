@@ -1,16 +1,26 @@
-[gd_scene load_steps=6 format=3 uid="uid://bpfx38prnoyd2"]
+[gd_scene load_steps=11 format=3 uid="uid://bo81aoqsayojr"]
 
+[ext_resource type="Script" path="res://GameManager.gd" id="1_5txxt"]
 [ext_resource type="Script" path="res://Player.gd" id="1_rl0cc"]
 [ext_resource type="Script" path="res://PlatformManager.gd" id="2_g1p3f"]
+[ext_resource type="Script" path="res://Void.gd" id="3_sqr8x"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_15np0"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_yrsw4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6n31e"]
 albedo_color = Color(1, 0, 0, 1)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_15np0"]
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_v64ib"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_a25as"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0pjr0"]
+albedo_color = Color(0, 1, 0, 1)
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_5txxt")
 
 [node name="Player" type="CharacterBody3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
@@ -19,18 +29,75 @@ script = ExtResource("1_rl0cc")
 [node name="Sun" type="DirectionalLight3D" parent="Player"]
 transform = Transform3D(0.997941, 0.0452687, -0.0454271, 0, 0.70834, 0.705872, 0.0641317, -0.704418, 0.706882, -12, 17.4959, 13.9347)
 
-[node name="Character" type="MeshInstance3D" parent="Player"]
-mesh = SubResource("BoxMesh_yrsw4")
-surface_material_override/0 = SubResource("StandardMaterial3D_6n31e")
-
 [node name="Camera" type="Camera3D" parent="Player"]
 transform = Transform3D(-4.37114e-08, -0.642788, 0.766044, 0, 0.766044, 0.642788, -1, 2.80971e-08, -3.34849e-08, 6, 4, 0)
 
 [node name="CharacterCollision" type="CollisionShape3D" parent="Player"]
 shape = SubResource("BoxShape3D_15np0")
 
+[node name="Character" type="MeshInstance3D" parent="Player/CharacterCollision"]
+mesh = SubResource("BoxMesh_yrsw4")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_6n31e")
+
 [node name="PlatformManager" type="Node3D" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("2_g1p3f")
 player = NodePath("../Player")
 
 [node name="Platforms" type="Node3D" parent="PlatformManager"]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Start" type="Control" parent="UI"]
+layout_direction = 2
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartLabel" type="Label" parent="UI/Start"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -101.0
+offset_top = -11.5
+offset_right = 101.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Press \"Space Bar\" to start."
+
+[node name="Score" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ScoreLabel" type="Label" parent="UI/Score"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Void" type="Area3D" parent="."]
+transform = Transform3D(-4.37114e-06, 0, -100, 0, 100, 0, 100, 0, -4.37114e-06, 0, 0, 0)
+script = ExtResource("3_sqr8x")
+
+[node name="VoidCollision" type="CollisionShape3D" parent="Void"]
+shape = SubResource("WorldBoundaryShape3D_v64ib")
+
+[node name="VoidMesh" type="MeshInstance3D" parent="Void/VoidCollision"]
+mesh = SubResource("PlaneMesh_a25as")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_0pjr0")

@@ -1,6 +1,8 @@
 extends Node
 
 # Global game settings
+@export var score: int = 0
+@export var game_started: bool = false
 @export var game_speed: float = 3.0
 @export var game_height: float = 15.0  # Height of the playable area
 @export var min_y: float = -game_height/2
@@ -16,3 +18,9 @@ extends Node
 @export var player_size: float = 0.75
 @export var platform_base_length: float = 3.0
 @export var platform_height: float = 0.5
+
+func reset():
+	game_started = false
+	game_speed = 3.0
+	platform_gap = 1.0  # Distance between platforms
+	platform_height_diff = 2.0

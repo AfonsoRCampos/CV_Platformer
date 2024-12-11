@@ -8,13 +8,32 @@ var platforms: Array = []
 var last_z: float = 0.0
 var last_y: float = 0.0
 var last_x: float = 0.0
-var time_since_last_spawn: float = 0.0
 var last_width: float = 3.0
 
 func _ready():
 	spawn_starting_platform()  # First, spawn the starting platform
+	
+func reset():
+	for platform in platforms:
+		if platform:
+			platform.queue_free()
+	platforms.clear()
+	last_z = 0.0
+	last_y = 0.0
+	last_x = 0.0
+	last_width = 3.0
+	
+	# Optionally, clear any delayed actions
+	set_process(false)  # Temporarily stop `_process`
+	await get_tree().process_frame
+	set_process(true)  # Resume `_process`
+	
+	_ready()
 
 func _process(delta):
+	if not platforms:  # Skip processing if reset is underway
+		return
+	
 	var player_z = player.global_transform.origin.z
 	var furthest_platform_z = platforms.back().global_transform.origin.z if platforms.size() > 0 else 0
 	
@@ -92,3 +111,4 @@ func spawn_platform():
 	last_y = new_position.y
 	last_x = new_position.x
 	last_width = width
+	
