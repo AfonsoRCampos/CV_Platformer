@@ -1,0 +1,42 @@
+[gd_scene load_steps=6 format=3 uid="uid://bpfx38prnoyd2"]
+
+[ext_resource type="Script" path="res://Player.gd" id="1_rl0cc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yrsw4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_15np0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2nq4k"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gc85f"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.13687e-13, 0.501824, -6.64471)
+script = ExtResource("1_rl0cc")
+
+[node name="Sun" type="DirectionalLight3D" parent="Player"]
+transform = Transform3D(-0.965926, 0.182558, -0.183466, 7.71341e-09, 0.708857, 0.705352, 0.258819, 0.681318, -0.684703, -12, 17.4959, -21.7424)
+
+[node name="Character" type="MeshInstance3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.18897, 0)
+mesh = SubResource("BoxMesh_yrsw4")
+
+[node name="CharacterCollision" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.18897, 0)
+shape = SubResource("BoxShape3D_15np0")
+
+[node name="Camera" type="Camera3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, -2.93329e-07, 4.49818, 3.35529)
+fov = 90.0
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_2nq4k")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("PlaneMesh_gc85f")
