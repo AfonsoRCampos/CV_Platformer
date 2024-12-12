@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d053kpkac4oyt" path="res://TCom_Ground_Soil3_header.jpg" id="2_hf61e"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_x1ny4"]
-size = Vector3(1.21002, 0.687378, 1)
+size = Vector3(1.6384, 1.33585, 1.43919)
 
 [sub_resource type="BoxMesh" id="BoxMesh_m6xnw"]
 
@@ -48,7 +48,7 @@ albedo_texture = ExtResource("2_hf61e")
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.000579834, -0.0807495, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0196306, -0.16188, -0.0107193)
 shape = SubResource("BoxShape3D_x1ny4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
