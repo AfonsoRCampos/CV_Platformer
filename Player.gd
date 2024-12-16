@@ -30,10 +30,14 @@ func update_score():
 	Globals.score = platforms_cleared.size()
 	score_label.text = "Score: %d" % Globals.score
 	if Globals.score % 10 == 0:
-		if Globals.game_speed < 5:
+		if Globals.game_speed < 6:
 			Globals.game_speed += 0.25
 		if Globals.platform_gap < 3:
 			Globals.platform_gap += 0.25
+		if Globals.platform_base_length > 1.5:
+			Globals.platform_base_length -= 0.25
+		if Globals.platform_height_diff < 3:
+			Globals.platform_height_diff += 0.1
 	
 		print("Score: ", Globals.score)
 		print("Speed: ", Globals.game_speed)

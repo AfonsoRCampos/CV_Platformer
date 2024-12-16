@@ -98,7 +98,7 @@ func spawn_platform():
 	# Ensure the platform stays within bounds
 	new_x = clamp(new_x, Globals.min_x + width / 2, Globals.max_x - width / 2)
 
-	var new_position = Vector3(new_x, new_y, last_z - Globals.platform_gap - Globals.platform_base_length)
+	var new_position = Vector3(new_x, new_y, last_z - Globals.platform_gap - (Globals.platform_base_length * 1.5))
 	new_platform.global_transform.origin = new_position
 
 	# Set the scale of the platform root node directly in code

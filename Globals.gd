@@ -10,7 +10,7 @@ extends Node
 @export var game_width: float = 15.0  # Width of the playable area (lane count)
 @export var min_x: float = -game_width/2
 @export var max_x: float = game_width/2
-@export var platform_gap: float = 1.0  # Distance between platforms
+@export var platform_gap: float = 0.5  # Distance between platforms
 @export var platform_height_diff: float = 2.0 
 @export var player_lookahead: float = 50.0 # units the player can see ahead (affects platform generation)
 
@@ -24,3 +24,4 @@ func reset():
 	game_speed = 3.0
 	platform_gap = 1.0  # Distance between platforms
 	platform_height_diff = 2.0
+	platform_base_length = 3.0
