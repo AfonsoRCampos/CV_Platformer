@@ -4,6 +4,7 @@ extends CharacterBody3D
 var current_camera_index: int = 0
 
 @onready var score_label: Label
+var percentage: float = 0.0
 
 # Fixed jump and gravity settings
 var gravity: float = 9.8  # Constant gravity value (can be adjusted for feel)
@@ -12,7 +13,7 @@ var jump_force: float = 10.0  # Constant jump force value
 # Sideways movement settings
 var target_lane: int = 0  # Current target lane (center is 0)
 var changing_lane: bool = false
-var platforms_cleared = {}
+
 
 func _ready():
 	# Set the player's position to the top center of the starting platform
@@ -34,10 +35,13 @@ func _ready():
 	show_start_menu()
 	
 func update_score():
-	Globals.score = platforms_cleared.size()
+	if Globals.platforms_existed.size() > 0:
+		var cleared = float(Globals.platforms_cleared.size())
+		var existed = Globals.platforms_existed.size()
+		percentage = (cleared / existed) * 100
 	
 	# Update the text to show score and stats on separate lines
-	score_label.text = "Score: %d\n" % Globals.score
+	score_label.text = "Score: %d/%d (%.2f%%)\n" % [Globals.platforms_cleared.size(), Globals.platforms_existed.size(), percentage]
 	score_label.text += "Speed: %.2f/%.2f\n" % [Globals.game_speed, Globals.max_game_speed]
 	score_label.text += "Gap: %.2f/%.2f\n" % [Globals.platform_gap, Globals.max_platform_gap]
 	score_label.text += "Height Difference: %.2f/%.2f\n" % [Globals.platform_height_diff, Globals.max_height_diff]
@@ -58,8 +62,8 @@ func update_score():
 
 func reset():
 	target_lane = 0
+	percentage = 0.0
 	changing_lane = false
-	platforms_cleared = {}
 	_ready()
 	
 func show_start_menu():
@@ -92,9 +96,9 @@ func _physics_process(delta):
 		
 	for i in get_slide_collision_count():
 		var platform_id = get_slide_collision(i).get_collider_id()
-		platforms_cleared[platform_id] = null
+		Globals.platforms_cleared[platform_id] = null
 		
-	if Globals.score < platforms_cleared.size():
+	if Globals.score < Globals.platforms_cleared.size():
 		update_score()
 	
 	# Forward movement

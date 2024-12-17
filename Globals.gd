@@ -13,6 +13,8 @@ extends Node
 @export var platform_gap: float = 0.5  # Distance between platforms
 @export var platform_height_diff: float = 2.0 
 @export var player_lookahead: float = 50.0 # units the player can see ahead (affects platform generation)
+@export var platforms_cleared = {}
+@export var platforms_existed = {}
 
 # Sizes
 @export var player_size: float = 0.75
@@ -31,3 +33,5 @@ func reset():
 	platform_gap = 1.0  # Distance between platforms
 	platform_height_diff = 2.0
 	platform_base_length = 3.0
+	platforms_cleared = {}
+	platforms_existed = {}

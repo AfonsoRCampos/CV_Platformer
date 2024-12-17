@@ -44,6 +44,9 @@ func _process(delta):
 
 	# Recycle platforms as before
 	for platform in platforms:
+		if platform.global_transform.origin.z > player_z - (platform.scale.z * 1.5):
+			Globals.platforms_existed[platform.get_instance_id()] = null
+			
 		if platform.global_transform.origin.z > player_z + 10:
 			platform.queue_free()
 			platforms.erase(platform)

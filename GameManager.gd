@@ -18,7 +18,6 @@ func _input(event):
 	if event.is_action_pressed("ui_cancel"):  # Default action mapped to the Escape key
 		get_tree().quit()
 
-
 func game_over():
 	print("Game Over!")
 	Globals.reset()  # Reset global game variables
