@@ -131,6 +131,7 @@ grow_vertical = 2
 text = "Press \"Space Bar\" to start.
 Arrow Keys: Character Movement
 C Key: Toggle Camera Mode
+Space Bar: Propel Forward
 Mouse Movement (Semi-Fixed Camera): Move Camera
 ESC Key: Quit Game"
 horizontal_alignment = 1
@@ -163,7 +164,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_0pjr0")
 [node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("cameras")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1.14116, 0)
 script = ExtResource("1_rl0cc")
-cameras = [NodePath("CameraFixed"), NodePath("CameraSemiFixed"), NodePath("CameraIsometric")]
+cameras = [NodePath("CameraFixed"), NodePath("CameraSemiFixed"), NodePath("CameraIsometric_Left"), NodePath("CameraIsometric_Right")]
 
 [node name="Sun" type="DirectionalLight3D" parent="Player"]
 transform = Transform3D(0.997941, 0.0452687, -0.0454271, 0, 0.70834, 0.705872, 0.0641317, -0.704418, 0.706882, -12, 17.4959, 13.9347)
@@ -178,8 +179,15 @@ transform = Transform3D(-4.37114e-08, 0.642788, -0.766044, 0, 0.766044, 0.642788
 script = ExtResource("8_tmhmm")
 player = NodePath("../Character")
 
-[node name="CameraIsometric" type="Camera3D" parent="Player" node_paths=PackedStringArray("player")]
-transform = Transform3D(-0.00283447, -0.640962, 0.767568, 0.642788, 0.586823, 0.492404, -0.766039, 0.494779, 0.410339, -20, 15.2562, -10)
+[node name="CameraIsometric_Right" type="Camera3D" parent="Player" node_paths=PackedStringArray("player")]
+transform = Transform3D(-0.999981, 0.00546168, -0.00282472, -0.00181946, 0.17599, 0.98439, 0.00587355, 0.984377, -0.175977, -20, 15, 10)
+projection = 1
+size = 20.0
+script = ExtResource("8_wvr5j")
+player = NodePath("../Character")
+
+[node name="CameraIsometric_Left" type="Camera3D" parent="Player" node_paths=PackedStringArray("player")]
+transform = Transform3D(-0.00283447, -0.640962, 0.767568, 0.642788, 0.586823, 0.492404, -0.766039, 0.494779, 0.410339, -20, 15, -10)
 projection = 1
 size = 20.0
 script = ExtResource("8_wvr5j")

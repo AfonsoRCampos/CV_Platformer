@@ -101,8 +101,11 @@ func _physics_process(delta):
 	if Globals.score < Globals.platforms_cleared.size():
 		update_score()
 	
-	# Forward movement
-	velocity.z = -Globals.game_speed
+	# Determine the current game speed
+	var current_speed = Globals.game_speed
+	if Input.is_action_pressed("ui_accept"):  # "ui_accept" is mapped to the space bar by default
+		current_speed *= 3  # Double the speed when space bar is pressed
+	velocity.z = -current_speed
 
 	# Calculate the target X position based on the lane
 	var target_x = target_lane
@@ -158,5 +161,4 @@ func _input(event):
 	if Input.is_action_pressed("toggle_camera"):
 		toggle_camera()
 		update_score()
-			
 	
