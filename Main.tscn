@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://bo81aoqsayojr"]
+[gd_scene load_steps=38 format=3 uid="uid://bo81aoqsayojr"]
 
 [ext_resource type="Script" path="res://GameManager.gd" id="1_5txxt"]
 [ext_resource type="Script" path="res://Player.gd" id="1_rl0cc"]
@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://bxw500ha0esae" path="res://TCom_Ground_Grass02_header.jpg" id="4_xt7e4"]
 [ext_resource type="Texture2D" uid="uid://cid2e2r1x8fts" path="res://TCom_Fabric_Flannel3_header.jpg" id="5_jd135"]
 [ext_resource type="Texture2D" uid="uid://cq4e40lero2ww" path="res://TCom_Fabric_Denim_header.jpg" id="6_co4wv"]
+[ext_resource type="Script" path="res://CameraFixed.gd" id="6_jaj2l"]
+[ext_resource type="Script" path="res://CameraSemiFixed.gd" id="8_tmhmm"]
+[ext_resource type="Script" path="res://CameraIsometric.gd" id="8_wvr5j"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_v64ib"]
 
@@ -125,7 +128,12 @@ offset_right = 101.0
 offset_bottom = 11.5
 grow_horizontal = 2
 grow_vertical = 2
-text = "Press \"Space Bar\" to start."
+text = "Press \"Space Bar\" to start.
+Arrow Keys: Character Movement
+C Key: Toggle Camera Mode
+Mouse Movement (Semi-Fixed Camera): Move Camera
+ESC Key: Quit Game"
+horizontal_alignment = 1
 
 [node name="Score" type="Control" parent="UI"]
 layout_mode = 3
@@ -152,15 +160,30 @@ mesh = SubResource("PlaneMesh_a25as")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_0pjr0")
 
-[node name="Player" type="CharacterBody3D" parent="."]
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("cameras")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1.14116, 0)
 script = ExtResource("1_rl0cc")
+cameras = [NodePath("CameraFixed"), NodePath("CameraSemiFixed"), NodePath("CameraIsometric")]
 
 [node name="Sun" type="DirectionalLight3D" parent="Player"]
 transform = Transform3D(0.997941, 0.0452687, -0.0454271, 0, 0.70834, 0.705872, 0.0641317, -0.704418, 0.706882, -12, 17.4959, 13.9347)
 
-[node name="Camera" type="Camera3D" parent="Player"]
-transform = Transform3D(1.19249e-08, 0.642788, -0.766044, 0, 0.766044, 0.642788, 1, -7.66516e-09, 9.13499e-09, -3, 4, 0)
+[node name="CameraFixed" type="Camera3D" parent="Player" node_paths=PackedStringArray("player")]
+transform = Transform3D(1.19249e-08, 0.642788, -0.766044, 0, 0.766044, 0.642788, 1, -7.66516e-09, 9.13499e-09, -5, 3.5, 0)
+script = ExtResource("6_jaj2l")
+player = NodePath("../Character")
+
+[node name="CameraSemiFixed" type="Camera3D" parent="Player" node_paths=PackedStringArray("player")]
+transform = Transform3D(-4.37114e-08, 0.642788, -0.766044, 0, 0.766044, 0.642788, 1, 2.80971e-08, -3.34849e-08, -3, 4, 0)
+script = ExtResource("8_tmhmm")
+player = NodePath("../Character")
+
+[node name="CameraIsometric" type="Camera3D" parent="Player" node_paths=PackedStringArray("player")]
+transform = Transform3D(-0.00283447, -0.640962, 0.767568, 0.642788, 0.586823, 0.492404, -0.766039, 0.494779, 0.410339, -20, 15.2562, -10)
+projection = 1
+size = 20.0
+script = ExtResource("8_wvr5j")
+player = NodePath("../Character")
 
 [node name="CharacterCollision" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.22045e-16, 0.00408936, 0.0336304)

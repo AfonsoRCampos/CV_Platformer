@@ -1,5 +1,8 @@
 extends CharacterBody3D
 
+@export var cameras: Array[Camera3D]  # Drag and drop your cameras here
+var current_camera_index: int = 0
+
 @onready var score_label: Label
 
 # Fixed jump and gravity settings
@@ -22,28 +25,37 @@ func _ready():
 	# Freeze the game by setting the `process` and `physics_process` to false
 	set_physics_process(false)
 	set_process(false)
+	
+	# Ensure only one camera is active
+	for i in range(cameras.size()):
+		cameras[i].current = (i == current_camera_index)
 
 	# Show the start menu
 	show_start_menu()
 	
 func update_score():
 	Globals.score = platforms_cleared.size()
-	score_label.text = "Score: %d" % Globals.score
-	if Globals.score % 10 == 0:
-		if Globals.game_speed < 6:
-			Globals.game_speed += 0.25
-		if Globals.platform_gap < 3:
+	
+	# Update the text to show score and stats on separate lines
+	score_label.text = "Score: %d\n" % Globals.score
+	score_label.text += "Speed: %.2f/%.2f\n" % [Globals.game_speed, Globals.max_game_speed]
+	score_label.text += "Gap: %.2f/%.2f\n" % [Globals.platform_gap, Globals.max_platform_gap]
+	score_label.text += "Height Difference: %.2f/%.2f\n" % [Globals.platform_height_diff, Globals.max_height_diff]
+	score_label.text += "Length: %.2f/%.2f\n" % [Globals.platform_base_length, Globals.max_base_len]
+	score_label.text += "Camera: %s" % cameras[current_camera_index].name
+	
+
+	# Update game stats when score reaches multiples of 10
+	if Globals.score % 10 == 0 and Globals.score != 0:
+		if Globals.game_speed < Globals.max_game_speed:
+			Globals.game_speed += 0.50
+		if Globals.platform_gap < Globals.max_platform_gap:
 			Globals.platform_gap += 0.25
-		if Globals.platform_base_length > 1.5:
+		if Globals.platform_base_length > Globals.max_base_len:
 			Globals.platform_base_length -= 0.25
-		if Globals.platform_height_diff < 3:
+		if Globals.platform_height_diff < Globals.max_height_diff:
 			Globals.platform_height_diff += 0.1
-	
-		print("Score: ", Globals.score)
-		print("Speed: ", Globals.game_speed)
-		print("Gap: ", Globals.platform_gap)
-		
-	
+
 func reset():
 	target_lane = 0
 	changing_lane = false
@@ -63,6 +75,16 @@ func start_game():
 	set_physics_process(true)
 	set_process(true)
 	hide_start_menu()
+	
+func toggle_camera():
+	# Deactivate the current camera
+	cameras[current_camera_index].current = false
+
+	# Switch to the next camera
+	current_camera_index = (current_camera_index + 1) % cameras.size()
+
+	# Activate the new camera
+	cameras[current_camera_index].current = true
 
 func _physics_process(delta):
 	if not Globals.game_started:
@@ -128,5 +150,9 @@ func _input(event):
 			target_lane = clamp(target_lane-1, Globals.min_x, Globals.max_x)
 		elif Input.is_action_pressed("ui_right"):
 			target_lane = clamp(target_lane+1, Globals.min_x, Globals.max_x)
+			
+	if Input.is_action_pressed("toggle_camera"):
+		toggle_camera()
+		update_score()
 			
 	

@@ -19,6 +19,12 @@ extends Node
 @export var platform_base_length: float = 3.0
 @export var platform_height: float = 0.5
 
+# MAX STATS
+@export var max_game_speed = 6
+@export var max_platform_gap = 3
+@export var max_height_diff = 3
+@export var max_base_len = 1.5
+
 func reset():
 	game_started = false
 	game_speed = 3.0
