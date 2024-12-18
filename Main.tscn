@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://bo81aoqsayojr"]
+[gd_scene load_steps=41 format=3 uid="uid://bo81aoqsayojr"]
 
 [ext_resource type="Script" path="res://GameManager.gd" id="1_5txxt"]
 [ext_resource type="Script" path="res://Player.gd" id="1_rl0cc"]
@@ -86,6 +86,29 @@ albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0827t"]
 albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yq08t"]
+sky_top_color = Color(0.882353, 0.623529, 0.490196, 1)
+sky_horizon_color = Color(0.882353, 0.623529, 0.490196, 1)
+ground_energy_multiplier = 0.0
+
+[sub_resource type="Sky" id="Sky_l6a6l"]
+sky_material = SubResource("ProceduralSkyMaterial_yq08t")
+
+[sub_resource type="Environment" id="Environment_hbeuu"]
+background_mode = 1
+background_color = Color(0.934288, 0.821539, 0.714025, 1)
+background_energy_multiplier = 13.93
+background_canvas_max_layer = 10
+sky = SubResource("Sky_l6a6l")
+ambient_light_source = 2
+ambient_light_color = Color(0.923529, 0.9155, 0.856774, 1)
+ambient_light_energy = 3.0
+tonemap_mode = 3
+glow_enabled = true
+adjustment_enabled = true
+adjustment_brightness = 0.85
+adjustment_contrast = 1.1
 
 [node name="Node3D" type="Node3D" node_paths=PackedStringArray("player")]
 script = ExtResource("1_5txxt")
@@ -294,3 +317,6 @@ transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.0785308, -0.00751209,
 mesh = SubResource("SphereMesh_avtqx")
 skeleton = NodePath("../../../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_0827t")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_hbeuu")
