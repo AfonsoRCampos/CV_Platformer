@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://bwcjp50jg6fxh"]
+
+[ext_resource type="Texture2D" uid="uid://depx4wwm7omt0" path="res://TCom_Rock_Lava_header.jpg" id="1_01gs1"]
+[ext_resource type="Script" path="res://LavaModifier.gd" id="1_1jhaf"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_erait"]
+radius = 0.567398
+
+[sub_resource type="SphereMesh" id="SphereMesh_453cs"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dqxxx"]
+shading_mode = 2
+diffuse_mode = 2
+albedo_texture = ExtResource("1_01gs1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mc84a"]
+
+[sub_resource type="PointMesh" id="PointMesh_ai3rg"]
+
+[sub_resource type="Gradient" id="Gradient_qmhk5"]
+interpolation_mode = 2
+colors = PackedColorArray(1, 0.666667, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_jrtli"]
+initial_velocity_min = 28.74
+initial_velocity_max = 63.22
+
+[sub_resource type="PointMesh" id="PointMesh_48cuj"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 4
+script = ExtResource("1_1jhaf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+shape = SubResource("SphereShape3D_erait")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+mesh = SubResource("SphereMesh_453cs")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_dqxxx")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="Area3D/MeshInstance3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_mc84a")
+gi_mode = 2
+amount = 300
+lifetime = 0.46
+speed_scale = 2.29
+randomness = 0.15
+mesh = SubResource("PointMesh_ai3rg")
+emission_shape = 2
+emission_sphere_radius = 8.76
+direction = Vector3(0, 1, 0)
+spread = 21.36
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 30.0
+initial_velocity_max = 40.0
+scale_amount_max = 1000.0
+color = Color(1, 0.666667, 0, 1)
+color_ramp = SubResource("Gradient_qmhk5")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Area3D/MeshInstance3D"]
+light_color = Color(0.906568, 0.507616, 0.208604, 1)
+omni_range = 2.02747
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="Area3D/MeshInstance3D"]
+sub_emitter = NodePath(".")
+process_material = SubResource("ParticleProcessMaterial_jrtli")
+draw_pass_1 = SubResource("PointMesh_48cuj")
