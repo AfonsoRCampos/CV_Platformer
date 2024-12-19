@@ -1,10 +1,16 @@
 extends Node
 
+# MAX STATS
+@export var max_game_speed = 6
+@export var max_platform_gap = 3
+@export var max_height_diff = 3
+@export var max_base_len = 1.5
+
 # Global game settings
 @export var score: int = 0
 @export var game_started: bool = false
 @export var game_speed: float = 3.0
-@export var game_height: float = 15.0  # Height of the playable area
+@export var game_height: float = 15.0 * max_height_diff  # Height of the playable area
 @export var min_y: float = -game_height/2
 @export var max_y: float = game_height/2
 @export var game_width: float = 15.0  # Width of the playable area (lane count)
@@ -20,12 +26,6 @@ extends Node
 @export var player_size: float = 0.75
 @export var platform_base_length: float = 3.0
 @export var platform_height: float = 0.5
-
-# MAX STATS
-@export var max_game_speed = 6
-@export var max_platform_gap = 3
-@export var max_height_diff = 3
-@export var max_base_len = 1.5
 
 func reset():
 	game_started = false

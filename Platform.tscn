@@ -1,6 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://7ijsn02lno71"]
+[gd_scene load_steps=17 format=3 uid="uid://7ijsn02lno71"]
 
 [ext_resource type="Texture2D" uid="uid://bxw500ha0esae" path="res://TCom_Ground_Grass02_header.jpg" id="1_126ep"]
+[ext_resource type="Script" path="res://Platform.gd" id="1_jn2m5"]
 [ext_resource type="Texture2D" uid="uid://d053kpkac4oyt" path="res://TCom_Ground_Soil3_header.jpg" id="2_hf61e"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_x1ny4"]
@@ -9,11 +10,12 @@ size = Vector3(1.6384, 1.33585, 1.43919)
 [sub_resource type="BoxMesh" id="BoxMesh_m6xnw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_knpnq"]
-shading_mode = 2
-diffuse_mode = 3
 vertex_color_use_as_albedo = true
 albedo_color = Color(0.26909, 0.441516, 0.220961, 1)
 albedo_texture = ExtResource("1_126ep")
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 0.0
 ao_light_affect = 0.21
 ao_texture_channel = 1
 
@@ -44,6 +46,7 @@ albedo_texture = ExtResource("2_hf61e")
 albedo_texture = ExtResource("2_hf61e")
 
 [node name="Node3D" type="Node3D"]
+script = ExtResource("1_jn2m5")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 
