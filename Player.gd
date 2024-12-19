@@ -35,10 +35,10 @@ func _ready():
 	show_start_menu()
 	
 func update_score():
-	Globals.score = Globals.platforms_cleared.size()
 	if Globals.platforms_existed.size() > 0:
-		var existed = float(Globals.platforms_existed.size())
-		percentage = (Globals.score / existed) * 100
+		var cleared = float(Globals.platforms_cleared.size())
+		var existed = Globals.platforms_existed.size()
+		percentage = (cleared / existed) * 100
 	
 	# Update the text to show score and stats on separate lines
 	score_label.text = "Score: %d/%d (%.2f%%)\n" % [Globals.platforms_cleared.size(), Globals.platforms_existed.size(), percentage]
