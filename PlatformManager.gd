@@ -2,9 +2,11 @@ extends Node3D
 
 
 @export var platform_scene: PackedScene = preload("res://Platform.tscn")
+@export var modifier_scene: PackedScene = preload("res://LavaModifier.tscn")
 @export var player: Node3D
 
 var platforms: Array = []
+var modifiers: Array = []
 var last_z: float = 0.0
 var last_y: float = 0.0
 var last_x: float = 0.0
@@ -50,6 +52,15 @@ func _process(delta):
 		if platform.global_transform.origin.z > player_z + 10:
 			platform.queue_free()
 			platforms.erase(platform)
+	# Check for modifier collisions manually
+	for modifier in modifiers:
+		var modifier_global_pos =modifier.to_global(Vector3())
+		var player_global_pos = player.to_global(Vector3())
+		var distance = player_global_pos.distance_to(modifier_global_pos)
+		#if distance < .0:
+			#print("Player collided with a modifier!")
+			#modifier.queue_free()
+			#modifiers.erase(modifier)
 			
 func spawn_starting_platform():
 	# Create a 3-wide starting platform at the center
@@ -108,10 +119,37 @@ func spawn_platform():
 	new_platform.scale = Vector3(width, Globals.platform_height, Globals.platform_base_length)  # Width, height (fixed), length (fixed)
 
 	add_child(new_platform)
-	
+	spawn_modifier(new_platform,new_platform.scale.x)
 	platforms.append(new_platform)
 	last_z = new_position.z
 	last_y = new_position.y
 	last_x = new_position.x
 	last_width = width
+
+
+func spawn_modifier(platform: Node3D, platform_width: float):
+	if randi() % 10 == 0:  # 25% chance to spawn a modifier
+		var modifier = modifier_scene.instantiate()
+
+		var x_offset = randf_range(-platform_width / 2 + 0.5, platform_width / 2 - 0.5)
+		var modifier_position = platform.global_transform.origin + Vector3(x_offset, Globals.platform_height + 0.5, 0)
+
+		modifier.global_transform.origin = modifier_position
+
+		# Connect collision detection for the modifier
+		if modifier.has_signal("body_entered"):
+			modifier.connect("body_entered", Callable(self, "_on_modifier_body_entered"))
+
+		add_child(modifier)
+		modifiers.append(modifier)
+		print("Modifier added at position: ", modifier.global_transform.origin)
 	
+func _on_modifier_body_entered(body):
+	for child in get_children():
+		if child.name == "Modifier":  # Ensure it's a modifier
+			if player.global_transform.origin.distance_to(child.global_transform.origin) < 1.0:
+				print("Player collided with a modifier!")
+				child.queue_free()
+
+		
+		# Add any effect you want here, e.g., reduce health or apply a status effect
