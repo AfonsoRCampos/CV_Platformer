@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://bo81aoqsayojr"]
+[gd_scene load_steps=42 format=3 uid="uid://bo81aoqsayojr"]
 
 [ext_resource type="Script" path="res://GameManager.gd" id="1_5txxt"]
 [ext_resource type="Script" path="res://Player.gd" id="1_rl0cc"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" path="res://CameraFixed.gd" id="6_jaj2l"]
 [ext_resource type="Script" path="res://CameraSemiFixed.gd" id="8_tmhmm"]
 [ext_resource type="Script" path="res://CameraIsometric.gd" id="8_wvr5j"]
+[ext_resource type="Texture2D" uid="uid://chud3ho2qjuty" path="res://AllSkyFree_Sky_EpicBlueSunset_Equirect.png" id="11_wdr2d"]
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_v64ib"]
 
@@ -87,23 +88,23 @@ albedo_color = Color(0, 0, 0, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0827t"]
 albedo_color = Color(0, 0, 0, 1)
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_yq08t"]
-sky_top_color = Color(0.882353, 0.623529, 0.490196, 1)
-sky_horizon_color = Color(0.882353, 0.623529, 0.490196, 1)
-ground_energy_multiplier = 0.0
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_hnprg"]
+panorama = ExtResource("11_wdr2d")
+filter = false
 
-[sub_resource type="Sky" id="Sky_nfuu6"]
-sky_material = SubResource("ProceduralSkyMaterial_yq08t")
+[sub_resource type="Sky" id="Sky_l6a6l"]
+sky_material = SubResource("PanoramaSkyMaterial_hnprg")
 
 [sub_resource type="Environment" id="Environment_hbeuu"]
-background_mode = 1
+background_mode = 2
 background_color = Color(0.934288, 0.821539, 0.714025, 1)
-background_energy_multiplier = 13.93
+background_energy_multiplier = 2.48
 background_canvas_max_layer = 10
-sky = SubResource("Sky_nfuu6")
-ambient_light_source = 2
-ambient_light_color = Color(0.923529, 0.9155, 0.856774, 1)
-ambient_light_energy = 3.0
+sky = SubResource("Sky_l6a6l")
+ambient_light_source = 3
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_sky_contribution = 0.0
+ambient_light_energy = 1.35
 tonemap_mode = 3
 glow_enabled = true
 adjustment_enabled = true
@@ -191,6 +192,7 @@ cameras = [NodePath("CameraFixed"), NodePath("CameraSemiFixed"), NodePath("Camer
 
 [node name="Sun" type="DirectionalLight3D" parent="Player"]
 transform = Transform3D(0.997941, 0.0452687, -0.0454271, 0, 0.70834, 0.705872, 0.0641317, -0.704418, 0.706882, -12, 17.4959, 13.9347)
+visible = false
 
 [node name="CameraFixed" type="Camera3D" parent="Player" node_paths=PackedStringArray("player")]
 transform = Transform3D(1.19249e-08, 0.642788, -0.766044, 0, 0.766044, 0.642788, 1, -7.66516e-09, 9.13499e-09, -5, 3.5, 0)
