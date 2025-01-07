@@ -1,0 +1,270 @@
+[gd_scene load_steps=31 format=3 uid="uid://dwwk3aieft26a"]
+
+[ext_resource type="Script" path="res://platformmanagerSand.gd" id="1_8en7m"]
+[ext_resource type="Script" path="res://sand.gd" id="1_658ko"]
+[ext_resource type="Script" path="res://Void.gd" id="2_iguk8"]
+[ext_resource type="Texture2D" uid="uid://c2nh7tjr3rju" path="res://TCom_Ground_SandDesert2_header.jpg" id="3_1qugj"]
+[ext_resource type="Texture2D" uid="uid://depx4wwm7omt0" path="res://TCom_Rock_Lava_header.jpg" id="4_d3dqd"]
+[ext_resource type="Script" path="res://CameraFixed.gd" id="6_agwgf"]
+[ext_resource type="Script" path="res://playerSand.gd" id="6_gwpt5"]
+[ext_resource type="Script" path="res://CameraSemiFixed.gd" id="7_qk5mw"]
+[ext_resource type="Script" path="res://CameraIsometric.gd" id="8_vsvfr"]
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_7aqee"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_58heh"]
+albedo_texture = ExtResource("3_1qugj")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jtqpr"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_d4bc0"]
+albedo_texture = ExtResource("4_d3dqd")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_b0bug"]
+radius = 0.69028
+
+[sub_resource type="SphereMesh" id="SphereMesh_vw4qd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p4tgt"]
+albedo_color = Color(0.860243, 0.802049, 0.526939, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_68fjd"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_0fa58"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jy6hc"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_ngc30"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_x5vq2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_okpd0"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_scdus"]
+particle_flag_align_y = true
+emission_shape_offset = Vector3(0, 0, -30)
+emission_shape = 3
+emission_box_extents = Vector3(40, 3, 5)
+angle_min = 90.0
+angle_max = 180.0
+direction = Vector3(1, 0, 0.3)
+initial_velocity_min = 1.0
+initial_velocity_max = 20.0
+angular_velocity_min = -100.0
+angular_velocity_max = 100.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_et0he"]
+size = Vector3(0.6, 0.1, 0.03)
+
+[sub_resource type="Animation" id="Animation_1yf21"]
+resource_name = "jump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Character/Head:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.0333333, 0.533333, 1),
+"transitions": PackedFloat32Array(0.707107, 1, 0.554785),
+"update": 0,
+"values": [Vector3(1.5, 1.5, 1.5), Vector3(0.8, 3, 1.5), Vector3(1.5, 1.5, 1.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Character/Head:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.0333333, 0.533333, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, -0.181778, 0), Vector3(0, 0.592235, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_1rhho"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Character/Head:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(1.5, 1.5, 1.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Character/Head:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -0.181778, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ujow5"]
+_data = {
+"RESET": SubResource("Animation_1rhho"),
+"jump": SubResource("Animation_1yf21")
+}
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kbskg"]
+sky_top_color = Color(0.345947, 0, 0.00562965, 1)
+sky_horizon_color = Color(0.364597, 0, 0.018112, 1)
+sky_curve = 0.559819
+ground_energy_multiplier = 0.0
+
+[sub_resource type="Sky" id="Sky_l6a6l"]
+sky_material = SubResource("ProceduralSkyMaterial_kbskg")
+
+[sub_resource type="Environment" id="Environment_3h5ct"]
+background_mode = 1
+background_color = Color(0.907387, 0.739823, 0.431743, 1)
+background_energy_multiplier = 0.66
+background_canvas_max_layer = 10
+sky = SubResource("Sky_l6a6l")
+ambient_light_source = 2
+ambient_light_color = Color(0.49041, 0.380602, 0.278903, 1)
+ambient_light_energy = 0.3
+tonemap_mode = 3
+glow_enabled = true
+fog_enabled = true
+fog_mode = 1
+fog_light_color = Color(0.340021, 0.198131, 0.0987382, 1)
+fog_light_energy = 4.38
+fog_density = 1.0
+fog_height = -1024.0
+fog_depth_curve = 0.203063
+fog_depth_begin = 1.0
+adjustment_enabled = true
+adjustment_brightness = 0.85
+adjustment_contrast = 1.1
+
+[node name="Node3D" type="Node3D" node_paths=PackedStringArray("player")]
+script = ExtResource("1_658ko")
+player = NodePath("Player")
+
+[node name="PlatformManager" type="Node3D" parent="." node_paths=PackedStringArray("player")]
+script = ExtResource("1_8en7m")
+player = NodePath("../Player")
+
+[node name="Platforms" type="Node3D" parent="PlatformManager"]
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Score" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ScoreLabel" type="Label" parent="UI/Score"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="Void" type="Area3D" parent="." node_paths=PackedStringArray("player")]
+transform = Transform3D(-4.37114e-06, 0, -100, 0, 100, 0, 100, 0, -4.37114e-06, 0, 0, 0)
+script = ExtResource("2_iguk8")
+player = NodePath("")
+
+[node name="VoidCollision" type="CollisionShape3D" parent="Void"]
+shape = SubResource("WorldBoundaryShape3D_7aqee")
+
+[node name="VoidMesh" type="MeshInstance3D" parent="Void/VoidCollision"]
+transform = Transform3D(0.423931, 0, 0.905695, 0, 1, 0, -0.905695, 0, 0.423931, 0, -0.00448907, 0)
+material_override = SubResource("StandardMaterial3D_58heh")
+mesh = SubResource("PlaneMesh_jtqpr")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_d4bc0")
+
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("cameras")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 1.14116, 0)
+script = ExtResource("6_gwpt5")
+cameras = [NodePath("CameraFixed"), NodePath("CameraSemiFixed"), NodePath("CameraIsometric_Right"), NodePath("CameraIsometric_Left")]
+
+[node name="Sun" type="DirectionalLight3D" parent="Player"]
+transform = Transform3D(0.997941, 0.0452687, -0.0454271, 0, 0.70834, 0.705872, 0.0641317, -0.704418, 0.706882, -12, 17.4959, 13.9347)
+light_color = Color(0.854951, 0.51495, 0.536055, 1)
+
+[node name="CameraFixed" type="Camera3D" parent="Player" node_paths=PackedStringArray("player")]
+transform = Transform3D(1.19249e-08, 0.642788, -0.766044, 0, 0.766044, 0.642788, 1, -7.66516e-09, 9.13499e-09, -5, 3.5, 0)
+script = ExtResource("6_agwgf")
+player = NodePath("../Character")
+
+[node name="CameraSemiFixed" type="Camera3D" parent="Player" node_paths=PackedStringArray("player")]
+transform = Transform3D(-4.37114e-08, 0.642788, -0.766044, 0, 0.766044, 0.642788, 1, 2.80971e-08, -3.34849e-08, -3, 4, 0)
+script = ExtResource("7_qk5mw")
+player = NodePath("../Character")
+
+[node name="CameraIsometric_Right" type="Camera3D" parent="Player" node_paths=PackedStringArray("player")]
+transform = Transform3D(-0.999981, 0.00546168, -0.00282472, -0.00181946, 0.17599, 0.98439, 0.00587355, 0.984377, -0.175977, -20, 15, 10)
+projection = 1
+size = 20.0
+script = ExtResource("8_vsvfr")
+player = NodePath("../Character")
+
+[node name="CameraIsometric_Left" type="Camera3D" parent="Player" node_paths=PackedStringArray("player")]
+transform = Transform3D(-0.00283447, -0.640962, 0.767568, 0.642788, 0.586823, 0.492404, -0.766039, 0.494779, 0.410339, -20, 15, -10)
+projection = 1
+size = 20.0
+script = ExtResource("8_vsvfr")
+player = NodePath("../Character")
+
+[node name="CharacterCollision" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.354278, -0.492861, -0.166301)
+shape = SubResource("SphereShape3D_b0bug")
+
+[node name="Character" type="MultiMeshInstance3D" parent="Player"]
+
+[node name="Head" type="MeshInstance3D" parent="Player/Character"]
+transform = Transform3D(0.239486, 0.181941, 1.46954, 0.2154, 1.46852, -0.216918, -1.46501, 0.245658, 0.208333, 0, -0.181778, 0)
+mesh = SubResource("SphereMesh_vw4qd")
+skeleton = NodePath("../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_p4tgt")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Character/Head"]
+transform = Transform3D(0.244168, 0.0358999, 0.0399143, -0.0409429, 0.244753, 0.0303235, -0.0347222, -0.036153, 0.244923, -0.0543916, 0.146156, 0.406246)
+mesh = SubResource("SphereMesh_68fjd")
+skeleton = NodePath("../MeshInstance3D2")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="Player/Character/Head/MeshInstance3D"]
+transform = Transform3D(0.333333, 0, -2.96059e-15, 0, 0.333333, 0, 2.96059e-15, 0, 0.333333, 0.0036, -0.0515528, 0.594353)
+mesh = SubResource("SphereMesh_0fa58")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_jy6hc")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Player/Character/Head"]
+transform = Transform3D(0.244168, 0.0358999, 0.0399143, -0.0409429, 0.244753, 0.0303235, -0.0347222, -0.036153, 0.244923, 0.196286, 0.102023, 0.356392)
+mesh = SubResource("SphereMesh_ngc30")
+skeleton = NodePath("../../..")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/Character/Head/MeshInstance3D2"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0.0785308, -0.00751209, 0.521384)
+mesh = SubResource("SphereMesh_x5vq2")
+skeleton = NodePath("../../../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_okpd0")
+
+[node name="SandStormParticles" type="GPUParticles3D" parent="Player"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, -1.14116, 0)
+amount = 15000
+process_material = SubResource("ParticleProcessMaterial_scdus")
+draw_pass_1 = SubResource("BoxMesh_et0he")
+
+[node name="Animation" type="AnimationPlayer" parent="Player"]
+libraries = {
+"": SubResource("AnimationLibrary_ujow5")
+}
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_3h5ct")

@@ -34,10 +34,10 @@ func _ready():
 	start_game()
 	
 func update_score():
+	Globals.score = Globals.platforms_cleared.size()
 	if Globals.platforms_existed.size() > 0:
-		var cleared = float(Globals.platforms_cleared.size())
-		var existed = Globals.platforms_existed.size()
-		percentage = (cleared / existed) * 100
+		var existed = float(Globals.platforms_existed.size())
+		percentage = (Globals.score / existed) * 100
 	
 	# Update the text to show score and stats on separate lines
 	score_label.text = "Score: %d/%d (%.2f%%)\n" % [Globals.platforms_cleared.size(), Globals.platforms_existed.size(), percentage]
@@ -118,7 +118,10 @@ func _physics_process(delta):
 
 func perform_jump():
 	velocity.y = jump_force  # Apply the calculated jump force
+	call_deferred("start_animation")
 	
+func start_animation():
+	$Animation.play("jump")
 func perform_drop():
 	# Ensure the player is airborne before they can drop down
 	if not is_on_floor():  # Only drop if the player is not on the floor

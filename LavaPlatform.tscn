@@ -166,7 +166,12 @@ mesh = SubResource("PlaneMesh_4n55k")
 surface_material_override/0 = SubResource("StandardMaterial3D_i7o65")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="StaticBody3D/MeshInstance3D/MeshInstance3D7"]
-omni_range = 0.742705
+light_color = Color(0.537255, 0.184314, 0, 1)
+light_energy = 10.0
+light_indirect_energy = 5.0
+light_volumetric_fog_energy = 3.0
+shadow_enabled = true
+shadow_bias = 1.0
 
 [node name="MeshInstance3D8" type="MeshInstance3D" parent="StaticBody3D/MeshInstance3D"]
 transform = Transform3D(-0.0151036, 0, -0.0296558, 0, 0.1, 0, 0.0988528, 0, -0.00453109, 0, 0.509091, -0.0485325)
@@ -183,7 +188,12 @@ mesh = SubResource("PlaneMesh_4n55k")
 surface_material_override/0 = SubResource("StandardMaterial3D_au621")
 
 [node name="OmniLight3D" type="OmniLight3D" parent="StaticBody3D/MeshInstance3D/MeshInstance3D9"]
-omni_range = 0.662083
+light_color = Color(0.53546, 0.183919, 0, 1)
+light_energy = 10.0
+light_indirect_energy = 5.0
+light_volumetric_fog_energy = 3.0
+shadow_enabled = true
+shadow_bias = 1.0
 
 [node name="MeshInstance3D10" type="MeshInstance3D" parent="StaticBody3D/MeshInstance3D"]
 transform = Transform3D(-0.00957435, 0, -0.00114841, 0, 0.01, 0, 0.00459364, 0, -0.00989359, 0.015815, 0.56, 0.232795)

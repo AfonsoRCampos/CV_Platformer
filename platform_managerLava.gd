@@ -9,6 +9,7 @@ extends Node3D
 var platforms: Array = []
 var modifiers: Array = []
 var meteorites: Array = []
+var platforms_removed_by_meteorites: Array = []
 var last_z: float = 0.0
 var last_y: float = 0.0
 var last_x: float = 0.0
@@ -17,7 +18,7 @@ var last_width: float = 3.0
 func _ready():
 	spawn_starting_platform()  # First, spawn the starting platform
 	var meteor_timer = Timer.new()
-	meteor_timer.wait_time = 5.0  # Cada 5 segundos
+	meteor_timer.wait_time = 2.0  # Cada 5 segundos
 	meteor_timer.one_shot = false
 	meteor_timer.connect("timeout", Callable(self, "_spawn_meteorite"))  # Usar Callable en Godot 4
 	add_child(meteor_timer)
@@ -83,11 +84,41 @@ func _process(delta):
 			modifiers.erase(modifier)
 	for platform in platforms:
 		for meteorite in meteorites:
+			# Verificar distancia entre la plataforma y el meteorito
 			if platform.global_transform.origin.distance_to(meteorite.global_transform.origin) < 0.5:
-				print("Impacto detectado: Plataforma eliminada por meteorito.")
-				platforms_to_remove.append(platform)
+				var platform_z = platform.global_transform.origin.z
+				var safe_distance = 10 * 1.5
+				
+				# Comprobar si alguna plataforma cercana ya fue eliminada
+				var nearby_removed = false
+				for removed_platform in platforms_removed_by_meteorites:
+					if abs(removed_platform.global_transform.origin.z - platform_z) < safe_distance:
+						nearby_removed = true
+						break
+				
+				# Si hay una plataforma cercana ya eliminada, no eliminar esta
+				if nearby_removed:
+					continue
+				
+				# Marcar la plataforma para eliminar
+				platforms_removed_by_meteorites.append(platform)
 				meteorites_to_remove.append(meteorite)
 				break  # No procesar más meteoritos para esta plataforma
+
+	# Eliminar plataformas y meteoritos marcados
+	for platform in platforms_removed_by_meteorites:
+		if platform.is_inside_tree():
+			platforms.erase(platform)
+			platform.queue_free()
+
+	for meteorite in meteorites_to_remove:
+		if meteorite.is_inside_tree():
+			meteorites.erase(meteorite)
+			meteorite.queue_free()
+
+	# Limpiar la lista después de procesar
+	platforms_removed_by_meteorites.clear()
+
 	# Eliminar plataformas y meteoritos después de iterar
 	for platform in platforms_to_remove:
 		if platform.is_inside_tree():

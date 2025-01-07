@@ -2,7 +2,10 @@ extends Node3D
 
 
 @export var platform_scene: PackedScene = preload("res://Platform.tscn")
-@export var modifier_scene: PackedScene = preload("res://LavaModifier.tscn")
+@export var modifier_scenes: Array = [
+	preload("res://LavaModifier.tscn"),
+	preload("res://SandModifier.tscn")
+]
 @export var player: Node3D
 
 var platforms: Array = []
@@ -129,13 +132,11 @@ func spawn_platform():
 
 func spawn_modifier(platform: Node3D, platform_width: float):
 	if randi() % 10 == 0:  # 25% chance to spawn a modifier
-		var modifier = modifier_scene.instantiate()
-
+		var selected_modifier_scene = modifier_scenes[randi() % modifier_scenes.size()]
+		var modifier = selected_modifier_scene.instantiate()
 		var x_offset = randf_range(-platform_width / 2 + 0.5, platform_width / 2 - 0.5)
 		var modifier_position = platform.global_transform.origin + Vector3(x_offset, Globals.platform_height + 0.5, 0)
-
 		modifier.global_transform.origin = modifier_position
-
 		# Connect collision detection for the modifier
 		if modifier.has_signal("body_entered"):
 			modifier.connect("body_entered", Callable(self, "_on_modifier_body_entered"))
